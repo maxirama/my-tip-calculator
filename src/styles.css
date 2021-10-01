@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+  font-family: "Space Mono";
+}
+
+body {
+  background-color: hsl(185, 54%, 80%);
+  margin: 0;
+  padding: 0;
+}
+
+.main-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Space Mono";
+  font-size: 1em;
+  background-color: white;
+  padding: 2em;
+  border-radius: 1em;
+}
+
+label {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.title {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+  padding: 3em;
+}
+
+input {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  border: 0;
+  padding: 0.8em;
+  border-radius: 0.3em;
+  background-color: hsl(189, 41%, 97%);
+  font-size: 1em;
+}
+
+.main-container_tip_container {
+  margin: 1em auto;
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+}
+
+.main-container_tip--button {
+  background-color: hsl(183, 100%, 15%);
+  outline: none;
+  border: none;
+  padding: 1em;
+  margin-bottom: 0.3em;
+}
+
+.main-container_display {
+  background-color: hsl(183, 100%, 15%);
+  border-radius: 1em;
+  font-size: 1em;
+  margin: 2em 0;
+  width: 100%;
+  color: azure;
+  padding: 1em;
+  align-items: baseline;
+  margin: 1em auto;
+}
+
+.main-container_display_item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+.main-container_display_item--description {
+  list-style-type: none;
+  font-size: 0.9em;
+  align-self: center;
+}
+
+.main-container_display_item--description > li {
+  font-size: 0.7em;
+  color: hsl(189, 41%, 50%);
+}
+
+.main-container_display_item--amount {
+  color: hsl(172, 54%, 69%);
+  font-size: 2em;
+}
+
+.main-container_display--button {
+  width: 100%;
+  padding: 1em;
+  background-color: hsl(172, 67%, 45%);
+  border-radius: 0.5em;
+  border: none;
+  font-size: 1.2em;
+  font-weight: bolder;
+}
+/**
+## Layout
+
+The designs were created to the following widths:
+
+- Mobile: 375px
+- Desktop: 1440px
+
+## Colors
+
+### Primary
+
+- Strong cyan: hsl(172, 67%, 45%)
+
+### Neutral
+
+- Very dark cyan: hsl(183, 100%, 15%)
+- Dark grayish cyan: hsl(186, 14%, 43%)
+- Dark grayish cyan: hsl(184, 14%, 56%)
+- Light grayish cyan: hsl(185, 41%, 84%)
+- Light grayish cyan: hsl(189, 41%, 97%)
+- White: hsl(0, 0%, 100%)
+
+## Typography
+
+### Body Copy
+
+- Font size (form inputs): 24px
+
+### Font
+
+- Family: [Space Mono](https://fonts.google.com/specimen/Space+Mono)
+- Weights: 400, 500, 700
+**/ ;
