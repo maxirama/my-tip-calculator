@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
 import './styles.css';
 
-const Input = ({onChange, name, value, logo, className}) => {
+const Input = ({onChange, name, value, type, className}) => {
   return (
     <>
       <label for={name}>{name}</label>
-      <input className={className} type='text' name={name} onChange={onChange} value={value} img={logo}>
-      </input>
+      <div className='inputBar'>
+        <input className={className} type={type} pattern={'[0-9]{10}'} name={name} onChange={onChange} value={value}>
+        </input>
+      </div>
     </>
   )
 }
 
-const Keypad = ({valueOne,valueTwo,valueThree,valueFour,valueFive}) => {
+// TO-DO Revisar className del componente Button.
+const Button = ({className, value,onClick})=> {
+  return (
+    <button className={className} onClick={onClick} value={value}> {value} </button>
+  )
+}
+
+const Keypad = ({onClick , tipValues}) => {
     return (
       <>
-
-                <button className='main-container_tip--button'> 5% </button>
-                <button className='main-container_tip--button'> 10%</button>
-                <button className='main-container_tip--button'> 15%</button>
-                <button className='main-container_tip--button'> 10%</button>
-                <button className='main-container_tip--button'> 25%</button>
-
+            {
+              tipValues.map(value =><Button className='main-container_tip--button' onClick={onClick} value={ value + '%'}/> )
+              }
       </>
     )
-
 }
+
 const BillItem =({description, amount})=> {
     return (
       <>
@@ -39,6 +44,7 @@ const BillItem =({description, amount})=> {
       </>
     )
 }
+
 const Title =()=> {
   return (
     <div className='title'>
@@ -48,6 +54,7 @@ const Title =()=> {
     </div>
     )
 }
+
 function App() {
   const initialValues = {
       bill: 0,
@@ -57,29 +64,46 @@ function App() {
 
   const [values , setValues] = useState(initialValues);
 
+  const handleChange =(e, valueType)=> {
+    //Sanity check
+    const value = e.target.value;
+    console.log(isNaN(parseInt(value)));
+      if (isNaN(parseInt(value))) {
+         console.log(`This is not a number. Please, enter a number.`);
+      } else {
+          setValues({...values,[valueType]:parseInt(value)})
+        }
+    }
+
+    const handleClick = e =>{
+      console.log('clickeo');
+      console.log(e.target.value);
+      setValues({...values, tip: e.target.value});
+    }
+
   return (
-    <>
+    <> 
       <Title />
       <div className='main-container'>
             <div className='main-container_tip'>
-                <Input logo='./images/icon-dollar.svg' name='Bill' onChange={(e=>{setValues({...values, bill: parseFloat(e.target.value)})})} value={values.bill} />
+                <Input className='input'  type='number' name='Bill' onChange={(e=>{handleChange(e,'bill')})} value={values.bill} />
                 <label for={'tip-section'}>Select Tip %</label>
                 <div className='main-container_tip_container'>
-                    <Keypad name ='tip-section' tipOne={0.05} tipTwo={0.10} tipThree={0.15} tipFour={0.10} tipFive={0.25} />
-                    <input className='main-container_tip--button' placeholder='CUSTOM' type='text' onChange={(e=>{setValues({...values, tip: parseFloat(e.target.value)})})}  />
-              </div>
-              
-                <Input name='Number of People' onChange={(e=>{setValues({...values, people: parseInt(e.target.value)})})} value={values.people} />
+                    <Keypad onClick={e=> {handleClick(e)}} tipValues={[5,10,15,20,25]}/>
+                    <input className='main-container_tip--button main-container_tip--input' placeholder='CUSTOM' onChange={(e=>{handleChange(e,'tip')})}/>
+                </div>
+                <Input className='input' type='number' name='Number of People' onChange={(e=> {handleChange(e,'people')})} value={values.people} />
            </div>
                 
             <div className='main-container_display'>
                   <BillItem description='Tip Amount' amount={values.bill * (0.01 * values.tip) / values.people} />
                   <BillItem description='Total' amount={values.bill / values.people} />
-                  <button className='main-container_display--button'onClick={(e=>{setValues(initialValues)})}> RESET </button>
+                  <Button className='main-container_display--button' value='RESET' onClick={(e=>{setValues(initialValues)})} />
             </div>
       </div>
     </>
   )
 }
+
 
 export default App;
