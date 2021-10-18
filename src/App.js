@@ -1,44 +1,59 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-const Input = ({ onChange, name, value, type, className }) => {
+const Input = ({
+  onChange,
+  name,
+  value,
+  type,
+  className,
+  placeholder,
+  onFocus,
+}) => {
   return (
-    <>
-      <label for={name}>{name}</label>
-      <div className="inputBar">
-        <input
-          className={className}
-          type={type}
-          pattern={"[0-9]{10}"}
-          name={name}
-          onChange={onChange}
-          value={value}
-        ></input>
-      </div>
-    </>
+    <input
+      className={className}
+      type={type}
+      name={name}
+      onChange={onChange}
+      value={value}
+      placeholder={placeholder}
+    ></input>
   );
 };
 
 // TO-DO Revisar className del componente Button.
 const Button = ({ className, value, onClick }) => {
   return (
-    <button className={className} onClick={onClick} value={value}>
+    <button className={className} onClick={onClick}>
       {" "}
       {value}{" "}
     </button>
   );
 };
 
-const Keypad = ({ onClick, tipValues }) => {
+//TO-DO Corregir el Input del Keypad (acepta caracteres no numericos)
+const Keypad = ({ onChange, tipValues, type, value }) => {
   return (
     <>
       {tipValues.map((value) => (
         <Button
           className="main-container_tip--button"
-          onClick={onClick}
+          onClick={(e) => {
+            onChange(value);
+          }}
           value={value + "%"}
         />
       ))}
+      <Input
+        className="main-container_tip--button main-container_tip--input"
+        type={type}
+        placeholder="CUSTOM"
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+        onFocus="this.type='number"
+      />
     </>
   );
 };
@@ -74,83 +89,80 @@ const Title = () => {
   );
 };
 
+// De esta manera me aseguro que la constante que voy a escribo en el objeto es exactamente el mismo que se usa al leerla.
+// Leer clean code
+const BILL = "bill";
+const TIP = "tip";
+const PEOPLE = "people";
+
 function App() {
   const initialValues = {
-    bill: 0,
-    tip: 0,
-    people: 1,
+    [BILL]: 0,
+    [TIP]: 0,
+    [PEOPLE]: 1,
   };
 
   const [values, setValues] = useState(initialValues);
 
-  const handleChange = (e, valueType) => {
-    //Sanity check
-    const value = e.target.value;
-    console.log(isNaN(parseInt(value)));
-    if (isNaN(parseInt(value))) {
-      console.log(`This is not a number. Please, enter a number.`);
-    } else {
-      setValues({ ...values, [valueType]: parseInt(value) });
+  const changeValue = (key, value) => {
+    if (Number(value)) {
+      setValues({ ...values, [key]: parseInt(value) });
     }
-  };
-
-  const handleClick = (e) => {
-    console.log("clickeo");
-    console.log(e.target.value);
-    setValues({ ...values, tip: e.target.value });
   };
 
   return (
     <>
       <Title />
+
       <div className="main-container">
-        <div className="main-container_tip">
+        <div className="main-container_configuration">
+          {" "}
+          <label for={"bill-section"}>Bill</label>
           <Input
             className="input"
             type="number"
             name="Bill"
             onChange={(e) => {
-              handleChange(e, "bill");
+              changeValue(BILL, e.target.value);
             }}
-            value={values.bill}
+            value={values[BILL]}
           />
           <label for={"tip-section"}>Select Tip %</label>
           <div className="main-container_tip_container">
             <Keypad
-              onClick={(e) => {
-                handleClick(e);
+              onChange={(value) => {
+                changeValue(TIP, value);
               }}
               tipValues={[5, 10, 15, 20, 25]}
-            />
-            <input
-              className="main-container_tip--button main-container_tip--input"
-              placeholder="CUSTOM"
-              onChange={(e) => {
-                handleChange(e, "tip");
-              }}
+              type="number"
+              value={values[TIP]}
             />
           </div>
+          <label for={"people-section"}>Number of People</label>
           <Input
             className="input"
             type="number"
             name="Number of People"
             onChange={(e) => {
-              handleChange(e, "people");
+              changeValue(PEOPLE, e.target.value);
             }}
-            value={values.people}
+            value={values[PEOPLE]}
           />
         </div>
 
         <div className="main-container_display">
           <BillItem
             description="Tip Amount"
-            amount={(values.bill * (0.01 * values.tip)) / values.people}
+            amount={(values[BILL] * (0.01 * values[TIP])) / values[PEOPLE]}
           />
-          <BillItem description="Total" amount={values.bill / values.people} />
+          <BillItem
+            description="Total"
+            amount={values[BILL] / values[PEOPLE]}
+          />
           <Button
             className="main-container_display--button"
             value="RESET"
-            onClick={(e) => {
+            onClick={() => {
               setValues(initialValues);
             }}
           />
