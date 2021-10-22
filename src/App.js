@@ -1,16 +1,42 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-const Input = ({ onChange, name, value, type, className, placeholder }) => {
-  return (
+const Input = ({
+  onChange,
+  name,
+  value,
+  type,
+  placeholder,
+  label,
+  tipValues,
+}) => {
+  let input = (
     <input
-      className={className}
+      className="input"
       type={type}
       name={name}
       onChange={onChange}
       value={value}
       placeholder={placeholder}
     ></input>
+  );
+
+  if (type === "keypad") {
+    input = (
+      <Keypad
+        onChange={onChange}
+        tipValues={tipValues}
+        type="number"
+        value={value}
+      />
+    );
+  }
+
+  return (
+    <>
+      {label && <label>{label}</label>}
+      {input}
+    </>
   );
 };
 
@@ -44,7 +70,7 @@ const Keypad = ({ onChange, tipValues, type, value }) => {
   ));
 
   return (
-    <>
+    <div className="main-container_tip_container">
       {tipButtons}
       <Input
         className="main-container_tip--button main-container_tip--input"
@@ -56,9 +82,9 @@ const Keypad = ({ onChange, tipValues, type, value }) => {
             setSelectedValue(null);
           }
         }}
-        //value={value}
+        value={value}
       />
-    </>
+    </div>
   );
 };
 
@@ -105,6 +131,7 @@ function App() {
   };
 
   const [values, setValues] = useState(initialValues);
+  const [errorStatus, setErrorStatus] = useState(true);
 
   const changeValue = (key, value) => {
     if (Number(value)) {
@@ -116,40 +143,41 @@ function App() {
     <>
       <Title />
       <div className="main-container">
+        {/* INPUT SECTION BEGINS */}
         <div className="main-container_configuration">
           {" "}
-          <label for={"bill-section"}>Bill</label>
           <Input
-            className="input"
             type="number"
-            name="Bill"
+            name="bill"
+            label="Bill"
             onChange={(e) => {
               changeValue(BILL, e.target.value);
             }}
             value={values[BILL]}
           />
-          <label for={"tip-section"}>Select Tip %</label>
-          <div className="main-container_tip_container">
-            <Keypad
+          <div>
+            <Input
+              type="keypad"
+              name="tip"
+              label="Select Tip %"
               onChange={(value) => {
                 changeValue(TIP, value);
               }}
               tipValues={[5, 10, 15, 20, 25]}
-              type="number"
               value={values[TIP]}
             />
           </div>
-          <label for={"people-section"}>Number of People</label>
           <Input
-            className="input"
             type="number"
-            name="Number of People"
+            name="people"
+            label="Number of People"
             onChange={(e) => {
               changeValue(PEOPLE, e.target.value);
             }}
             value={values[PEOPLE]}
           />
         </div>
+        {/* INPUT SECTION ENDS */}
         <div className="main-container_display">
           <div className="main-container_display--detail">
             <BillItem
