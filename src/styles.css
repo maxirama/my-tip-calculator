@@ -69,6 +69,32 @@ label {
   border-radius: 0.3em;
 }
 
+.main-container_tip--button--selected {
+  background-color: hsl(167, 65%, 55%);
+  color: hsl(183, 100%, 15%);
+  outline: none;
+  border: none;
+  padding: 1em;
+  margin-bottom: 3%;
+  margin-right: 5%;
+
+  font-weight: bold;
+  border-radius: 0.3em;
+}
+
+.main-container_tip--button--selected--fullwidth {
+  background-color: hsl(167, 65%, 55%);
+  color: hsl(183, 100%, 15%);
+  outline: none;
+  border: none;
+  padding: 1em;
+  margin-bottom: 3%;
+  margin-right: 5%;
+  font-weight: bold;
+  width: 100%;
+  border-radius: 0.3em;
+}
+
 .main-container_tip--button:hover {
   background-color: hsl(172, 67%, 45%);
 }
@@ -96,25 +122,25 @@ label {
   margin: 1em auto;
 }
 
-.main-container_display_item {
+.main-container_display_detail--item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 0.5em;
   margin: 0.5em;
 }
-.main-container_display_item--description {
+.main-container_display_detail--item--description {
   list-style-type: none;
   font-size: 0.9em;
   align-self: center;
 }
 
-.main-container_display_item--description > li {
+.main-container_display_detail--item--description > li {
   font-size: 0.7em;
   color: hsl(189, 41%, 50%);
 }
 
-.main-container_display_item--amount {
+.main-container_display_detail--item--amount {
   color: hsl(172, 54%, 69%);
   font-size: 2em;
 }
@@ -140,6 +166,42 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+@media screen and (min-width: 1440px) {
+  .main-container {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+  }
+
+  .main-container_configuration {
+    width: 100%;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-container_display {
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .main-container_display--detail {
+    display: flex;
+    flex-direction: column;
+  }
+
+  main-container_display_detail--item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 /**
 ## Layout

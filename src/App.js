@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-const Input = ({
-  onChange,
-  name,
-  value,
-  type,
-  className,
-  placeholder,
-  onFocus,
-}) => {
+const Input = ({ onChange, name, value, type, className, placeholder }) => {
   return (
     <input
       className={className}
@@ -23,7 +15,11 @@ const Input = ({
 };
 
 // TO-DO Revisar className del componente Button.
-const Button = ({ className, value, onClick }) => {
+const Button = ({ value, onClick, selected, fullWidth }) => {
+  let className = `main-container_tip--button${selected ? "--selected" : ""}${
+    fullWidth ? "--fullwidth" : ""
+  }`;
+
   return (
     <button className={className} onClick={onClick}>
       {" "}
@@ -32,27 +28,35 @@ const Button = ({ className, value, onClick }) => {
   );
 };
 
-//TO-DO Corregir el Input del Keypad (acepta caracteres no numericos)
+//TO-DO Corregir el Input del Keypad (acepta caracteres no numericos) (FIREFOX)
 const Keypad = ({ onChange, tipValues, type, value }) => {
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  let tipButtons = tipValues.map((value) => (
+    <Button
+      onClick={(e) => {
+        onChange(value);
+        setSelectedValue(value);
+      }}
+      value={value + "%"}
+      selected={value === selectedValue}
+    />
+  ));
+
   return (
     <>
-      {tipValues.map((value) => (
-        <Button
-          className="main-container_tip--button"
-          onClick={(e) => {
-            onChange(value);
-          }}
-          value={value + "%"}
-        />
-      ))}
+      {tipButtons}
       <Input
         className="main-container_tip--button main-container_tip--input"
         type={type}
         placeholder="CUSTOM"
         onChange={(e) => {
-          onChange(e.target.value);
+          if (Number(e.target.value)) {
+            onChange(e.target.value);
+            setSelectedValue(null);
+          }
         }}
-        onFocus="this.type='number"
+        //value={value}
       />
     </>
   );
@@ -61,14 +65,12 @@ const Keypad = ({ onChange, tipValues, type, value }) => {
 const BillItem = ({ description, amount }) => {
   return (
     <>
-      <div className="main-container_display_item">
-        <div>
-          <span className="main-container_display_item--description">
-            {description}
-            <li>/ person</li>
-          </span>
-        </div>
-        <span className="main-container_display_item--amount">
+      <div className="main-container_display_detail--item">
+        <span className="main-container_display_detail--item--description">
+          {description}
+          <li>/ person</li>
+        </span>
+        <span className="main-container_display_detail--item--amount">
           ${amount.toFixed(2)}
         </span>
       </div>
@@ -113,7 +115,6 @@ function App() {
   return (
     <>
       <Title />
-
       <div className="main-container">
         <div className="main-container_configuration">
           {" "}
@@ -149,22 +150,24 @@ function App() {
             value={values[PEOPLE]}
           />
         </div>
-
         <div className="main-container_display">
-          <BillItem
-            description="Tip Amount"
-            amount={(values[BILL] * (0.01 * values[TIP])) / values[PEOPLE]}
-          />
-          <BillItem
-            description="Total"
-            amount={values[BILL] / values[PEOPLE]}
-          />
+          <div className="main-container_display--detail">
+            <BillItem
+              description="Tip Amount"
+              amount={(values[BILL] * (0.01 * values[TIP])) / values[PEOPLE]}
+            />
+            <BillItem
+              description="Total"
+              amount={values[BILL] / values[PEOPLE]}
+            />
+          </div>
           <Button
-            className="main-container_display--button"
             value="RESET"
             onClick={() => {
               setValues(initialValues);
             }}
+            selected={true}
+            fullWidth={true}
           />
         </div>
       </div>
