@@ -46,6 +46,20 @@ label {
   font-weight: bolder;
 }
 
+.input--tip {
+  display: flex;
+  justify-content: flex-end;
+  width: 96%;
+  border: 0;
+  border-radius: 0.3em;
+  background-color: hsl(189, 41%, 97%);
+  color: hsl(183, 100%, 15%);
+  font-size: 24px;
+  text-align: right;
+  font-weight: bolder;
+  padding: 0.2em;
+}
+
 .input--error {
   display: flex;
   justify-content: flex-end;
@@ -59,6 +73,10 @@ label {
   font-weight: bolder;
 }
 
+.input--tip:focus {
+  outline: none !important;
+  border: 0.01em solid hsl(155, 95%, 63%);
+}
 .input--error:focus {
   outline: none !important;
   border: 0.01em solid chocolate;
@@ -70,7 +88,7 @@ label {
 
 .main-container_tip_container {
   display: grid;
-  grid-template-columns: repeat(2, 51.2%);
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .main-container_tip--button {
@@ -115,16 +133,13 @@ label {
   background-color: hsl(172, 67%, 45%);
 }
 
-.main-container_tip--input {
-  border-radius: 0px;
-  background-color: hsl(189, 41%, 97%);
-  text-align: center;
-  color: hsl(183, 100%, 15%);
+.label {
+  margin: 0.5em;
 }
 
 .input--icon {
   position: absolute;
-  display: flex;
+  margin: 0.6em;
 }
 .main-container_tip--input:hover {
   background-color: hsl(189, 41%, 97%);
@@ -205,6 +220,8 @@ input[type="number"] {
     display: flex;
     flex-direction: row;
     padding: 1em;
+    -webkit-box-shadow: 2px 12px 15px -12px rgba(0, 0, 0, 0.7);
+    box-shadow: 2px 12px 15px -12px rgba(0, 0, 0, 0.7);
   }
 
   .main-container_configuration {
@@ -226,10 +243,21 @@ input[type="number"] {
     flex-direction: column;
   }
 
-  main-container_display_detail--item {
+  .main-container_display_detail--item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 150%;
+  }
+
+  .main-container_tip_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .input--icon {
+    position: absolute;
+    margin: 0.6em;
   }
 }
 /**
