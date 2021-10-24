@@ -157,6 +157,9 @@ label {
   margin: 1em auto;
 }
 
+.main-container_display--detail {
+  width: 100%;
+}
 .main-container_display_detail--item {
   display: flex;
   flex-direction: row;
@@ -164,6 +167,7 @@ label {
   padding: 0.5em;
   margin: 0.5em;
   overflow: hidden;
+  width: 100%;
 }
 .main-container_display_detail--item--description {
   list-style-type: none;
