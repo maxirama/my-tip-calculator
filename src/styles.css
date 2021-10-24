@@ -163,6 +163,7 @@ label {
   justify-content: space-between;
   padding: 0.5em;
   margin: 0.5em;
+  overflow: hidden;
 }
 .main-container_display_detail--item--description {
   list-style-type: none;
@@ -236,6 +237,7 @@ input[type="number"] {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
   }
 
   .main-container_display--detail {
@@ -247,7 +249,8 @@ input[type="number"] {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 150%;
+    width: 100%;
+    overflow: hidden;
   }
 
   .main-container_tip_container {
@@ -255,9 +258,11 @@ input[type="number"] {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .main-container_display_detail--item--amount {
+    align-self: flex-end;
+  }
   .input--icon {
-    position: absolute;
-    margin: 0.6em;
+    width: 0%;
   }
 }
 /**
