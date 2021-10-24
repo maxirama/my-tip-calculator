@@ -9,10 +9,18 @@ const Input = ({
   placeholder,
   label,
   tipValues,
+  hasErrorState,
 }) => {
+  let className = "input";
+  let errorMessage = "";
+  if (value === 0 && hasErrorState) {
+    errorMessage = "Can't be zero";
+    className += "--error";
+  }
+
   let input = (
     <input
-      className="input"
+      className={className}
       type={type}
       name={name}
       onChange={onChange}
@@ -34,8 +42,18 @@ const Input = ({
 
   return (
     <>
-      {label && <label>{label}</label>}
-      {input}
+      {label && (
+        <label>
+          <div className="label">
+            <span>{label}</span>
+            <span className="errorMessage">{errorMessage}</span>
+          </div>
+        </label>
+      )}
+      <div>
+        <img src="src\images\icon-dollar.svg" alt="" className="input--icon" />
+        {input}
+      </div>
     </>
   );
 };
@@ -127,11 +145,10 @@ function App() {
   const initialValues = {
     [BILL]: 0,
     [TIP]: 0,
-    [PEOPLE]: 1,
+    [PEOPLE]: 0,
   };
 
   const [values, setValues] = useState(initialValues);
-  const [errorStatus, setErrorStatus] = useState(true);
 
   const changeValue = (key, value) => {
     if (Number(value)) {
@@ -175,6 +192,7 @@ function App() {
               changeValue(PEOPLE, e.target.value);
             }}
             value={values[PEOPLE]}
+            hasErrorState={true}
           />
         </div>
         {/* INPUT SECTION ENDS */}
